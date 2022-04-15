@@ -11,13 +11,19 @@
         "id": "4cd7031c86a22124",
         "type": "inject",
         "z": "c8c55875b6236dc8",
-        "name": "Saludo",
+        "name": "Fake_Sensor",
         "props": [
             {
                 "p": "payload"
             },
             {
-                "p": "topic",
+                "p": "max",
+                "v": "100",
+                "vt": "num"
+            },
+            {
+                "p": "sensorId",
+                "v": "temp1",
                 "vt": "str"
             }
         ],
@@ -28,16 +34,35 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 190,
+        "x": 130,
         "y": 220,
         "wires": [
             [
-                "2320725c73723d36"
+                "2c3f44ff0f347a4f"
             ]
         ]
     },
     {
-        "id": "2320725c73723d36",
+        "id": "2c3f44ff0f347a4f",
+        "type": "function",
+        "z": "c8c55875b6236dc8",
+        "name": "Random_Values",
+        "func": "\nconst randomValue = {};\nrandomValue.sensorId = msg.sensorId;\nrandomValue.payload = Math.random()*msg.max;\nrandomValue.timestamp = msg.payload;\nreturn randomValue;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 220,
+        "wires": [
+            [
+                "8dd68a3d395798b3"
+            ]
+        ]
+    },
+    {
+        "id": "756b4ea0e58bee1e",
         "type": "debug",
         "z": "c8c55875b6236dc8",
         "name": "",
@@ -45,11 +70,44 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 410,
-        "y": 220,
+        "x": 790,
+        "y": 300,
         "wires": []
+    },
+    {
+        "id": "8dd68a3d395798b3",
+        "type": "function",
+        "z": "c8c55875b6236dc8",
+        "name": "prepare_azure_message",
+        "func": "const dataMessage = {    \n\t\tsensorId: msg.sensorId,    \n        value: msg.payload,   \n\t\ttimestamp: msg.timestamp};\n\nconst azureMessage = { \n\t\t\"deviceId\": \"raspberry_pi_1\",  \n\t\t\"key\": \"1Ejo4geKiSTlrQkWior6v4aDUKt6N5DlLp+kZH7IPRw=\",  \n\t\t\"protocol\": \"mqtt\", \n\t\t\"data\": dataMessage };\n\nconst message2send = {};\nmessage2send.payload = azureMessage;\nreturn message2send;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 220,
+        "wires": [
+            [
+                "756b4ea0e58bee1e",
+                "4742fb8364f19bfb"
+            ]
+        ]
+    },
+    {
+        "id": "4742fb8364f19bfb",
+        "type": "azureiothub",
+        "z": "c8c55875b6236dc8",
+        "name": "Azure IoT Hub",
+        "protocol": "mqtt",
+        "x": 780,
+        "y": 380,
+        "wires": [
+            []
+        ]
     }
 ]
