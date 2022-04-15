@@ -74,8 +74,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 790,
-        "y": 300,
+        "x": 830,
+        "y": 140,
         "wires": []
     },
     {
@@ -104,10 +104,84 @@
         "z": "c8c55875b6236dc8",
         "name": "Azure IoT Hub",
         "protocol": "mqtt",
-        "x": 780,
-        "y": 380,
+        "x": 840,
+        "y": 260,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "32330f9a6589f117",
+        "type": "inject",
+        "z": "c8c55875b6236dc8",
+        "name": "Fake_Sensor_2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "max",
+                "v": "100",
+                "vt": "num"
+            },
+            {
+                "p": "sensorId",
+                "v": "temp2",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 300,
+        "wires": [
+            [
+                "6bbdc1c3d65b1549"
+            ]
+        ]
+    },
+    {
+        "id": "6bbdc1c3d65b1549",
+        "type": "function",
+        "z": "c8c55875b6236dc8",
+        "name": "Random_Values",
+        "func": "\nconst randomValue = {};\nrandomValue.sensorId = msg.sensorId;\nrandomValue.payload = Math.random()*msg.max;\nrandomValue.timestamp = msg.payload;\nreturn randomValue;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 300,
+        "wires": [
+            [
+                "66332c88510ec628"
+            ]
+        ]
+    },
+    {
+        "id": "66332c88510ec628",
+        "type": "function",
+        "z": "c8c55875b6236dc8",
+        "name": "prepare_azure_message",
+        "func": "const dataMessage = {    \n\t\tsensorId: msg.sensorId,    \n        value: msg.payload,   \n\t\ttimestamp: msg.timestamp};\n\nconst azureMessage = { \n\t\t\"deviceId\": \"raspberry_pi_1\",  \n\t\t\"key\": \"1Ejo4geKiSTlrQkWior6v4aDUKt6N5DlLp+kZH7IPRw=\",  \n\t\t\"protocol\": \"mqtt\", \n\t\t\"data\": dataMessage };\n\nconst message2send = {};\nmessage2send.payload = azureMessage;\nreturn message2send;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 300,
+        "wires": [
+            [
+                "4742fb8364f19bfb",
+                "756b4ea0e58bee1e"
+            ]
         ]
     }
 ]
