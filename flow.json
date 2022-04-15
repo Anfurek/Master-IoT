@@ -1,1 +1,55 @@
-[]
+[
+    {
+        "id": "c8c55875b6236dc8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4cd7031c86a22124",
+        "type": "inject",
+        "z": "c8c55875b6236dc8",
+        "name": "Saludo",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 220,
+        "wires": [
+            [
+                "2320725c73723d36"
+            ]
+        ]
+    },
+    {
+        "id": "2320725c73723d36",
+        "type": "debug",
+        "z": "c8c55875b6236dc8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 220,
+        "wires": []
+    }
+]
