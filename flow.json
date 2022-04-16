@@ -8,6 +8,32 @@
         "env": []
     },
     {
+        "id": "ea96bb5300db4db3",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
         "id": "4cd7031c86a22124",
         "type": "inject",
         "z": "c8c55875b6236dc8",
@@ -83,7 +109,7 @@
         "type": "function",
         "z": "c8c55875b6236dc8",
         "name": "prepare_azure_message",
-        "func": "const dataMessage = {    \n\t\tsensorId: msg.sensorId,    \n        value: msg.payload,   \n\t\ttimestamp: msg.timestamp};\n\nconst azureMessage = { \n\t\t\"deviceId\": \"raspberry_pi_1\",  \n\t\t\"key\": \"1Ejo4geKiSTlrQkWior6v4aDUKt6N5DlLp+kZH7IPRw=\",  \n\t\t\"protocol\": \"mqtt\", \n\t\t\"data\": dataMessage };\n\nconst message2send = {};\nmessage2send.payload = azureMessage;\nreturn message2send;\n",
+        "func": "const dataMessage = {    \n\t\tsensorId: msg.sensorId,    \n        val: msg.payload,   \n\t\ttimestamp: msg.timestamp};\n\nconst azureMessage = { \n\t\t\"deviceId\": \"raspberry_pi_1\",  \n\t\t\"key\": \"1Ejo4geKiSTlrQkWior6v4aDUKt6N5DlLp+kZH7IPRw=\",  \n\t\t\"protocol\": \"mqtt\", \n\t\t\"data\": dataMessage };\n\nconst message2send = {};\nmessage2send.payload = azureMessage;\nreturn message2send;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -169,7 +195,7 @@
         "type": "function",
         "z": "c8c55875b6236dc8",
         "name": "prepare_azure_message",
-        "func": "const dataMessage = {    \n\t\tsensorId: msg.sensorId,    \n        value: msg.payload,   \n\t\ttimestamp: msg.timestamp};\n\nconst azureMessage = { \n\t\t\"deviceId\": \"raspberry_pi_1\",  \n\t\t\"key\": \"1Ejo4geKiSTlrQkWior6v4aDUKt6N5DlLp+kZH7IPRw=\",  \n\t\t\"protocol\": \"mqtt\", \n\t\t\"data\": dataMessage };\n\nconst message2send = {};\nmessage2send.payload = azureMessage;\nreturn message2send;\n",
+        "func": "const dataMessage = {    \n\t\tsensorId: msg.sensorId,    \n        val: msg.payload,   \n\t\ttimestamp: msg.timestamp};\n\nconst azureMessage = { \n\t\t\"deviceId\": \"raspberry_pi_1\",  \n\t\t\"key\": \"1Ejo4geKiSTlrQkWior6v4aDUKt6N5DlLp+kZH7IPRw=\",  \n\t\t\"protocol\": \"mqtt\", \n\t\t\"data\": dataMessage };\n\nconst message2send = {};\nmessage2send.payload = azureMessage;\nreturn message2send;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -181,6 +207,46 @@
             [
                 "4742fb8364f19bfb",
                 "756b4ea0e58bee1e"
+            ]
+        ]
+    },
+    {
+        "id": "a75382935a44078b",
+        "type": "mqtt in",
+        "z": "c8c55875b6236dc8",
+        "name": "Prueba_MQTT",
+        "topic": "mqtt_brocker/test",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "ea96bb5300db4db3",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 420,
+        "wires": [
+            [
+                "0fd5384c124326c7"
+            ]
+        ]
+    },
+    {
+        "id": "0fd5384c124326c7",
+        "type": "function",
+        "z": "c8c55875b6236dc8",
+        "name": "MQTT_Message",
+        "func": "const formatedMessage = {};\nformatedMessage.sensorId = msg.payload.sensorId;\nformatedMessage.payload = msg.payload.val;\nformatedMessage.timestamp = msg.payload.timestamp;\n\nreturn formatedMessage;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 420,
+        "wires": [
+            [
+                "66332c88510ec628"
             ]
         ]
     }
