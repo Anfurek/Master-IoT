@@ -109,7 +109,7 @@
         "type": "function",
         "z": "c8c55875b6236dc8",
         "name": "prepare_azure_message",
-        "func": "const dataMessage = {    \n\t\tsensorId: msg.sensorId,    \n        val: msg.payload,   \n\t\ttimestamp: msg.timestamp};\n\nconst azureMessage = { \n\t\t\"deviceId\": \"raspberry_pi_1\",  \n\t\t\"key\": \"1Ejo4geKiSTlrQkWior6v4aDUKt6N5DlLp+kZH7IPRw=\",  \n\t\t\"protocol\": \"mqtt\", \n\t\t\"data\": dataMessage };\n\nconst message2send = {};\nmessage2send.payload = azureMessage;\nreturn message2send;\n",
+        "func": "const dataMessage = {    \n\t\tsensorId: msg.sensorId,    \n        val: msg.payload,   \n\t\ttimestamp: msg.timestamp};\n\nconst azureMessage = { \n\t\t\"deviceId\": \"raspberry_pi_1\",  \n\t\t\"key\": \"xZWDDqAhhWFrGdiDmVFyAm2x0tIsL4UZ/DRDqRhT/tM=\",  \n\t\t\"protocol\": \"mqtt\", \n\t\t\"data\": dataMessage };\n\nconst message2send = {};\nmessage2send.payload = azureMessage;\nreturn message2send;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
