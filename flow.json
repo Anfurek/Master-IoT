@@ -2,7 +2,15 @@
     {
         "id": "c8c55875b6236dc8",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "Azure",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "34a2d0912e09c949",
+        "type": "tab",
+        "label": "AWS",
         "disabled": false,
         "info": "",
         "env": []
@@ -10,8 +18,63 @@
     {
         "id": "ea96bb5300db4db3",
         "type": "mqtt-broker",
+        "name": "AWS out",
+        "broker": "a2puw325ufkiwp-ats.iot.eu-west-3.amazonaws.com",
+        "port": "8883",
+        "tls": "61f1d7dc893c6e4c",
+        "clientid": "raspberry_pi",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "61f1d7dc893c6e4c",
+        "type": "tls-config",
+        "name": "AWS_certification",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "9607d66564d99c36667f5f69a3ed1755cdfe550e7235f80728feed046a04ea3d-certificate.pem.crt",
+        "keyname": "9607d66564d99c36667f5f69a3ed1755cdfe550e7235f80728feed046a04ea3d-private.pem.key",
+        "caname": "AmazonRootCA1 (1).pem",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "47a41171d059c2a7",
+        "type": "tls-config",
+        "name": "AWS",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "a65c24a7f7fa2a171868cc7e7822cbac8786a5e4592a3d6f63557efd6e5ed65f-certificate.pem.crt",
+        "keyname": "a65c24a7f7fa2a171868cc7e7822cbac8786a5e4592a3d6f63557efd6e5ed65f-private.pem.key",
+        "caname": "AmazonRootCA1.pem",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "a16747a85b8313df",
+        "type": "mqtt-broker",
         "name": "",
-        "broker": "localhost",
+        "broker": "",
         "port": "1883",
         "clientid": "",
         "autoConnect": true,
@@ -195,7 +258,7 @@
         "type": "function",
         "z": "c8c55875b6236dc8",
         "name": "prepare_azure_message",
-        "func": "const dataMessage = {    \n\t\tsensorId: msg.sensorId,    \n        val: msg.payload,   \n\t\ttimestamp: msg.timestamp};\n\nconst azureMessage = { \n\t\t\"deviceId\": \"raspberry_pi_1\",  \n\t\t\"key\": \"1Ejo4geKiSTlrQkWior6v4aDUKt6N5DlLp+kZH7IPRw=\",  \n\t\t\"protocol\": \"mqtt\", \n\t\t\"data\": dataMessage };\n\nconst message2send = {};\nmessage2send.payload = azureMessage;\nreturn message2send;\n",
+        "func": "const dataMessage = {    \n\t\tsensorId: msg.sensorId,    \n        val: msg.payload,   \n\t\ttimestamp: msg.timestamp};\n\nconst azureMessage = { \n\t\t\"deviceId\": \"raspberry_pi_1\",  \n\t\t\"key\": \"xZWDDqAhhWFrGdiDmVFyAm2x0tIsL4UZ/DRDqRhT/tM=\",  \n\t\t\"protocol\": \"mqtt\", \n\t\t\"data\": dataMessage };\n\nconst message2send = {};\nmessage2send.payload = azureMessage;\nreturn message2send;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -249,5 +312,130 @@
                 "66332c88510ec628"
             ]
         ]
+    },
+    {
+        "id": "2d50bc992fc35c41",
+        "type": "mqtt out",
+        "z": "34a2d0912e09c949",
+        "name": "AWS OUT",
+        "topic": "temperature",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ea96bb5300db4db3",
+        "x": 830,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "4454c92a0dae183f",
+        "type": "inject",
+        "z": "34a2d0912e09c949",
+        "name": "Fake_Sensor",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "max",
+                "v": "100",
+                "vt": "num"
+            },
+            {
+                "p": "sensorId",
+                "v": "temp1",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 310,
+        "y": 180,
+        "wires": [
+            [
+                "370cdc962995d112"
+            ]
+        ]
+    },
+    {
+        "id": "370cdc962995d112",
+        "type": "function",
+        "z": "34a2d0912e09c949",
+        "name": "prepare_message_aws",
+        "func": "const awsMessage = {};\nawsMessage.sensorId = msg.sensorId;\nawsMessage.value = Math.random()*msg.max;\nawsMessage.timestamp = msg.payload;\n\nconst transportMessage = {};\ntransportMessage.payload = awsMessage;\n\nreturn transportMessage;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 220,
+        "wires": [
+            [
+                "2d50bc992fc35c41",
+                "8868ed33343c13fb"
+            ]
+        ]
+    },
+    {
+        "id": "c87df4ad382fcb4d",
+        "type": "inject",
+        "z": "34a2d0912e09c949",
+        "name": "Fake_Sensor_2",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "max",
+                "v": "100",
+                "vt": "num"
+            },
+            {
+                "p": "sensorId",
+                "v": "temp2",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 300,
+        "y": 320,
+        "wires": [
+            [
+                "370cdc962995d112"
+            ]
+        ]
+    },
+    {
+        "id": "8868ed33343c13fb",
+        "type": "debug",
+        "z": "34a2d0912e09c949",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 320,
+        "wires": []
     }
 ]
